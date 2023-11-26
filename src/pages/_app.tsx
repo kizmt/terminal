@@ -10,17 +10,10 @@ import AppHeader from 'src/components/AppHeader/AppHeader';
 import Footer from 'src/components/Footer/Footer';
 
 import { SolflareWalletAdapter, UnsafeBurnerWalletAdapter } from '@solana/wallet-adapter-wallets';
-import classNames from 'classnames';
 import { useForm } from 'react-hook-form';
-import CodeBlocks from 'src/components/CodeBlocks/CodeBlocks';
-import FormConfigurator from 'src/components/FormConfigurator';
 import { IFormConfigurator, INITIAL_FORM_CONFIG, JUPITER_DEFAULT_RPC } from 'src/constants';
 import IntegratedTerminal from 'src/content/IntegratedTerminal';
-import ModalTerminal from 'src/content/ModalTerminal';
-import WidgetTerminal from 'src/content/WidgetTerminal';
 import { IInit } from 'src/types';
-import V2SexyChameleonText from 'src/components/SexyChameleonText/V2SexyChameleonText';
-import V2FeatureButton from 'src/components/V2FeatureButton';
 
 const isDevNodeENV = process.env.NODE_ENV === 'development';
 const isDeveloping = isDevNodeENV && typeof window !== 'undefined';
@@ -69,9 +62,9 @@ export default function App({ Component, pageProps }: AppProps) {
               env: 'mainnet-beta',
               autoConnect: true,
               metadata: {
-                name: 'Jupiter Terminal',
+                name: 'SolApe Swap',
                 description: '',
-                url: 'https://terminal.jup.ag',
+                url: 'https://solape.io/',
                 iconUrls: [''],
               },
               theme: 'jupiter',
@@ -86,25 +79,25 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <DefaultSeo
-        title={'Jupiter Terminal'}
+        title={'SolApe Swap'}
         openGraph={{
           type: 'website',
           locale: 'en',
-          title: 'Jupiter Terminal',
-          description: 'Jupiter Terminal: An open-sourced, lite version of Jupiter that provides end-to-end swap flow.',
-          url: 'https://terminal.jup.ag/',
-          site_name: 'Jupiter Terminal',
+          title: 'SolApe Swap',
+          description: 'SolApe Swap: A lite version of Jupiter that provides end-to-end swap flow.',
+          url: 'https://solape.io/',
+          site_name: 'SolApe Swap',
           images: [
             {
               url: `https://og.jup.ag/api/jupiter`,
-              alt: 'Jupiter Aggregator',
+              alt: 'SOL.APE',
             },
           ],
         }}
         twitter={{
           cardType: 'summary_large_image',
-          site: 'jup.ag',
-          handle: '@JupiterExchange',
+          site: 'solape.io',
+          handle: '@SolApeDEX',
         }}
       />
 
@@ -115,30 +108,11 @@ export default function App({ Component, pageProps }: AppProps) {
           <div className="">
             <div className="flex flex-col items-center h-full w-full mt-4 md:mt-14">
               <div className="flex flex-col justify-center items-center text-center">
-                <div className="flex space-x-2">
-                  <V2SexyChameleonText className="text-4xl md:text-[52px] font-semibold px-4 pb-2 md:px-0">
-                    Jupiter Terminal
-                  </V2SexyChameleonText>
-
-                  <div className="px-1 py-0.5 bg-v3-primary rounded-md ml-2.5 font-semibold flex text-xs self-start">
-                    v2
-                  </div>
-                </div>
-                <p className="text-[#9D9DA6] max-w-[100%] md:max-w-[60%] text-md mt-4 heading-[24px]">
-                  An open-sourced, lite version of Jupiter that provides end-to-end swap flow by linking it in your
-                  HTML. Check out the visual demo for the various integration modes below.
-                </p>
               </div>
-
-              <V2FeatureButton />
             </div>
 
             <div className="flex justify-center">
               <div className="max-w-6xl bg-black/25 mt-12 rounded-xl flex flex-col md:flex-row w-full md:p-4 relative">
-                {/* Desktop configurator */}
-                <div className="hidden md:flex">
-                  <FormConfigurator {...watchAllFields} reset={reset} setValue={setValue} formState={formState} />
-                </div>
 
                 <ShouldWrapWalletProvider>
                   <div className="mt-8 md:mt-0 md:ml-4 h-full w-full bg-black/40 rounded-xl flex flex-col">
@@ -149,99 +123,9 @@ export default function App({ Component, pageProps }: AppProps) {
                       </div>
                     ) : null}
 
-                    <div className="mt-4 flex justify-center ">
-                      <button
-                        onClick={() => {
-                          setTab('modal');
-                        }}
-                        type="button"
-                        className={classNames(
-                          '!bg-none relative px-4 justify-center',
-                          tab === 'modal' ? '' : 'opacity-20 hover:opacity-70',
-                        )}
-                      >
-                        <div className="flex items-center text-md text-white">
-                          {tab === 'modal' ? <V2SexyChameleonText>Modal</V2SexyChameleonText> : 'Modal'}
-                        </div>
-
-                        {tab === 'modal' ? (
-                          <div className="absolute left-0 bottom-[-8px] w-full h-0.5 bg-gradient-to-r from-v3-primary to-[#00BEF0]" />
-                        ) : (
-                          <div className="absolute left-0 bottom-[-8px] w-full h-[1px] bg-white/50" />
-                        )}
-                      </button>
-
-                      <button
-                        onClick={() => {
-                          setTab('integrated');
-                        }}
-                        type="button"
-                        className={classNames(
-                          '!bg-none relative px-4 justify-center',
-                          tab === 'integrated' ? '' : 'opacity-20 hover:opacity-70',
-                        )}
-                      >
-                        <div className="flex items-center text-md text-white">
-                          {tab === 'integrated' ? <V2SexyChameleonText>Integrated</V2SexyChameleonText> : 'Integrated'}
-                        </div>
-                        {tab === 'integrated' ? (
-                          <div className="absolute left-0 bottom-[-8px] w-full h-0.5 bg-gradient-to-r from-v3-primary to-[#00BEF0]" />
-                        ) : (
-                          <div className="absolute left-0 bottom-[-8px] w-full h-[1px] bg-white/50" />
-                        )}
-                      </button>
-
-                      <button
-                        onClick={() => {
-                          setTab('widget');
-                        }}
-                        type="button"
-                        className={classNames(
-                          '!bg-none relative px-4 justify-center',
-                          tab === 'widget' ? '' : 'opacity-20 hover:opacity-70',
-                        )}
-                      >
-                        <div className="flex items-center text-md text-white">
-                          {tab === 'widget' ? <V2SexyChameleonText>Widget</V2SexyChameleonText> : 'Widget'}
-                        </div>
-
-                        {tab === 'widget' ? (
-                          <div className="absolute left-0 bottom-[-8px] w-full h-0.5 bg-gradient-to-r from-v3-primary to-[#00BEF0]" />
-                        ) : (
-                          <div className="absolute left-0 bottom-[-8px] w-full h-[1px] bg-white/50" />
-                        )}
-                      </button>
-                    </div>
-
-                    <span className="flex justify-center text-center text-xs text-[#9D9DA6] mt-4">
-                      {tab === 'modal' ? 'Jupiter renders as a modal and takes up the whole screen.' : null}
-                      {tab === 'integrated' ? 'Jupiter renders as a part of your dApp.' : null}
-                      {tab === 'widget'
-                        ? 'Jupiter renders as part of a widget that can be placed at different positions on your dApp.'
-                        : null}
-                    </span>
-
                     <div className="flex flex-grow items-center justify-center text-white/75">
-                      {tab === 'modal' ? (
-                        <ModalTerminal
-                          rpcUrl={rpcUrl}
-                          formProps={watchAllFields.formProps}
-                          simulateWalletPassthrough={watchAllFields.simulateWalletPassthrough}
-                          strictTokenList={watchAllFields.strictTokenList}
-                          defaultExplorer={watchAllFields.defaultExplorer}
-                        />
-                      ) : null}
                       {tab === 'integrated' ? (
                         <IntegratedTerminal
-                          rpcUrl={rpcUrl}
-                          formProps={watchAllFields.formProps}
-                          simulateWalletPassthrough={watchAllFields.simulateWalletPassthrough}
-                          strictTokenList={watchAllFields.strictTokenList}
-                          defaultExplorer={watchAllFields.defaultExplorer}
-                        />
-                      ) : null}
-                      {tab === 'widget' ? (
-                        <WidgetTerminal
                           rpcUrl={rpcUrl}
                           formProps={watchAllFields.formProps}
                           simulateWalletPassthrough={watchAllFields.simulateWalletPassthrough}
@@ -255,13 +139,8 @@ export default function App({ Component, pageProps }: AppProps) {
               </div>
             </div>
             {/* Mobile configurator */}
-            <div className="flex md:hidden">
-              <FormConfigurator {...watchAllFields} reset={reset} setValue={setValue} formState={formState} />
-            </div>
           </div>
         </div>
-
-        <CodeBlocks formConfigurator={watchAllFields} displayMode={tab} />
 
         <div className="w-full mt-12">
           <Footer />
